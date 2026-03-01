@@ -5,9 +5,9 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: loveboard
-      POSTGRES_PASSWORD: loveboard
-      POSTGRES_DB: loveboard
+      POSTGRES_USER: lovely
+      POSTGRES_PASSWORD: lovely
+      POSTGRES_DB: lovely
     ports:
       - "5432:5432"
     volumes:

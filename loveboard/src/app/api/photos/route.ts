@@ -21,7 +21,7 @@ export async function GET() {
     const photos = await prisma.photo.findMany({
       where: { coupleSpaceId: user.coupleSpaceId },
       orderBy: { createdAt: "desc" },
-      take: 20,
+      take: 120,
     });
 
     return NextResponse.json({ success: true, data: photos });
@@ -46,10 +46,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Limit image size to ~2MB base64
-    if (parsed.data.imageData.length > 2_800_000) {
+    // ~10MB binary image can become ~13.5MB as base64 data URI
+    if (parsed.data.imageData.length > 13_500_000) {
       return NextResponse.json(
-        { success: false, error: "Image too large (max ~2MB)" },
+        { success: false, error: "Image too large (max ~10MB)" },
         { status: 400 }
       );
     }

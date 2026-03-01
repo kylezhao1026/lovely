@@ -59,7 +59,7 @@ export default function LandingPage() {
         </div>
 
         <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3 tracking-tight">
-          Love<span className="text-love-500">Board</span>
+          lovely
         </h1>
         <p className="text-base text-gray-400 mb-8 leading-relaxed max-w-sm mx-auto">
           A cozy little dashboard for two. Share notes, grow a pet together,

@@ -3,7 +3,7 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "LoveBoard - Your Cozy Couple Dashboard",
+  title: "lovely - Your Cozy Couple Dashboard",
   description: "A cute long-distance relationship dashboard for couples",
 };
 
@@ -20,7 +20,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-cute bg-warm-cream min-h-screen text-gray-800 antialiased">
+      <body className="font-cute min-h-screen antialiased transition-colors duration-300">
         <Providers>{children}</Providers>
       </body>
     </html>

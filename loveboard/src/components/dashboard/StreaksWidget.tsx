@@ -1,74 +1,41 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { getStreakEmoji, getStreakMessage } from "@/lib/streaks";
-
 interface StreaksWidgetProps {
   streaks: any[];
 }
 
-const STREAK_LABELS: Record<string, string> = {
-  checkin: "Check-ins",
-  pet_care: "Pet Care",
-  notes: "Notes",
+const STREAK_META: Record<string, { label: string; icon: string }> = {
+  checkin: { label: "Daily Check-ins", icon: "/icons/streak-checkin.svg" },
+  pet_care: { label: "Love Bug Care", icon: "/icons/streak-pet.svg" },
+  notes: { label: "Shared Notes", icon: "/icons/streak-notes.svg" },
 };
 
 export function StreaksWidget({ streaks }: StreaksWidgetProps) {
+  const mapped = ["checkin", "pet_care", "notes"].map((type) => {
+    const found = streaks.find((s: any) => s.type === type);
+    return { type, currentCount: found?.currentCount || 0, longestCount: found?.longestCount || 0 };
+  });
+
   return (
     <div className="h-full flex flex-col">
-      <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">
+      <h3 className="text-base font-bold text-gray-600 dark:text-slate-200 uppercase tracking-wider mb-3">
         Streaks
       </h3>
 
-      <div className="flex-1 flex flex-col justify-center gap-3">
-        {streaks.map((streak, i) => {
-          const emoji = getStreakEmoji(streak.currentCount);
+      <div className="space-y-3">
+        {mapped.map((s) => {
+          const meta = STREAK_META[s.type];
           return (
-            <motion.div
-              key={streak.id || streak.type}
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="flex items-center gap-3"
-            >
-              <motion.span
-                className="text-xl w-8 text-center"
-                animate={
-                  streak.currentCount >= 7
-                    ? { rotate: [0, -8, 8, 0] }
-                    : undefined
-                }
-                transition={{ repeat: Infinity, duration: 2 }}
-              >
-                {emoji}
-              </motion.span>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold text-gray-600">
-                    {STREAK_LABELS[streak.type] || streak.type}
-                  </p>
-                  <p className="text-xs font-bold text-love-500">
-                    {streak.currentCount}
-                  </p>
+            <div key={s.type} className="rounded-xl border border-gray-100 dark:border-slate-700 p-3 bg-white/80 dark:bg-slate-900/70">
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-2">
+                  <img src={meta.icon} alt={meta.label} className="w-7 h-7" />
+                  <p className="text-sm font-semibold text-gray-700 dark:text-slate-100">{meta.label}</p>
                 </div>
-                <div className="h-1 bg-gray-100 rounded-full mt-1 overflow-hidden">
-                  <motion.div
-                    className="h-full rounded-full bg-gradient-to-r from-love-300 to-love-400"
-                    initial={{ width: 0 }}
-                    animate={{
-                      width: `${Math.min(
-                        (streak.currentCount / 30) * 100,
-                        100
-                      )}%`,
-                    }}
-                    transition={{ duration: 0.6, delay: i * 0.1 }}
-                  />
-                </div>
-                <p className="text-[10px] text-gray-300 mt-0.5">
-                  Best: {streak.longestCount} days
-                </p>
+                <p className="text-sm font-bold text-love-500 dark:text-love-300">{s.currentCount} days</p>
               </div>
-            </motion.div>
+              <p className="text-xs text-gray-500 dark:text-slate-300">Best: {s.longestCount} days</p>
+            </div>
           );
         })}
       </div>

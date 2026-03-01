@@ -38,18 +38,18 @@ export function DaysTogetherWidget({ startDate, partnerName }: DaysTogetherWidge
 
       <div>
         <motion.p
-          className="text-2xl font-extrabold text-gray-800"
+          className="text-2xl font-extrabold text-gray-800 dark:text-slate-100"
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
         >
           {totalDays}
         </motion.p>
-        <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">
+        <p className="text-[10px] text-gray-400 dark:text-slate-400 font-medium uppercase tracking-wider">
           days together
         </p>
       </div>
 
-      <p className="text-[10px] text-gray-300">{label.trim()}</p>
+      <p className="text-[10px] text-gray-300 dark:text-slate-400">{label.trim()}</p>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-# LoveBoard 💕
+# lovely 💕
 
 A cute long-distance relationship dashboard for couples. Share notes, care for a pet together, play mini-games, and keep your daily streaks alive — no matter the distance.
 
@@ -30,7 +30,7 @@ A cute long-distance relationship dashboard for couples. Share notes, care for a
 ### 1. Clone and install
 
 ```bash
-cd loveboard
+cd lovely
 npm install
 ```
 
@@ -86,7 +86,7 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Project Structure
 
 ```
-loveboard/
+lovely/
 ├── prisma/
 │   ├── schema.prisma       # Data model (9 models)
 │   └── seed.ts             # Sample data

@@ -61,7 +61,7 @@ export default function RegisterPage() {
       >
         <div className="text-center mb-6">
           <span className="text-4xl">✨</span>
-          <h1 className="text-2xl font-bold text-gray-800 mt-2">Join LoveBoard</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mt-2">Join lovely</h1>
           <p className="text-sm text-gray-400">Create your cozy corner</p>
         </div>
 

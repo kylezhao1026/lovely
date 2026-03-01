@@ -67,6 +67,11 @@ export function calculateDecay(stats: PetStats, now: Date): PetStats {
   };
 }
 
+function adaptiveGain(current: number, multiplier: number, minGain: number): number {
+  const missing = 100 - current;
+  return Math.max(minGain, Math.round(missing * multiplier));
+}
+
 export function applyAction(
   stats: PetStats,
   action: "feed" | "play" | "water",
@@ -75,20 +80,26 @@ export function applyAction(
   let { hunger, happiness, health, experience } = stats;
 
   switch (action) {
-    case "feed":
-      hunger = Math.min(100, hunger + 25);
-      experience += 10;
+    case "feed": {
+      const gain = adaptiveGain(hunger, 0.22, 4);
+      hunger = Math.min(100, hunger + gain);
+      experience += 5;
       break;
-    case "play":
-      happiness = Math.min(100, happiness + 30);
-      experience += 15;
+    }
+    case "play": {
+      const gain = adaptiveGain(happiness, 0.24, 5);
+      happiness = Math.min(100, happiness + gain);
+      experience += 6;
       break;
-    case "water":
-      hunger = Math.min(100, hunger + 10);
-      happiness = Math.min(100, happiness + 10);
-      health = Math.min(100, health + 15);
-      experience += 10;
+    }
+    case "water": {
+      const hungerGain = adaptiveGain(hunger, 0.1, 2);
+      const happinessGain = adaptiveGain(happiness, 0.1, 2);
+      hunger = Math.min(100, hunger + hungerGain);
+      happiness = Math.min(100, happiness + happinessGain);
+      experience += 4;
       break;
+    }
   }
 
   health = Math.round((hunger + happiness) / 2);

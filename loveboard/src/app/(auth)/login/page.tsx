@@ -46,7 +46,7 @@ export default function LoginPage() {
         <div className="text-center mb-6">
           <span className="text-4xl">💕</span>
           <h1 className="text-2xl font-bold text-gray-800 mt-2">Welcome Back</h1>
-          <p className="text-sm text-gray-400">Sign in to your LoveBoard</p>
+          <p className="text-sm text-gray-400">Sign in to your lovely</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">

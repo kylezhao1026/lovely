@@ -26,7 +26,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   if (!session) return null;
 
   return (
-    <div className="min-h-screen pt-14 pb-8">
+    <div className="min-h-screen pt-20 pb-8 transition-colors duration-300">
       <NavBar />
       <main className="max-w-5xl mx-auto px-4 py-4">{children}</main>
     </div>

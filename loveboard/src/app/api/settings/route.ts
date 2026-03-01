@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { getSessionUser } from "@/lib/session";
+import { CUTE_AVATARS } from "@/lib/avatars";
 
 const updateSchema = z.object({
   name: z.string().min(1).max(50).optional(),
-  avatarEmoji: z.string().max(4).optional(),
+  avatarEmoji: z.enum(CUTE_AVATARS).optional(),
   spaceName: z.string().min(1).max(50).optional(),
 });
 
@@ -78,7 +79,6 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-// Unpair — remove user from couple space
 export async function DELETE() {
   try {
     const user = await getSessionUser();

@@ -1,53 +1,52 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
-interface TriviaWidgetProps {
-  coupleSpaceId: string;
-}
-
-export function TriviaWidget({ coupleSpaceId }: TriviaWidgetProps) {
+export function TriviaWidget() {
   const [question, setQuestion] = useState<any>(null);
-  const [allQuestions, setAllQuestions] = useState<any[]>([]);
+  const [dayKey, setDayKey] = useState("");
   const [answer, setAnswer] = useState("");
-  const [revealed, setRevealed] = useState(false);
-  const [idx, setIdx] = useState(0);
+  const [answers, setAnswers] = useState<any[]>([]);
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
-    fetchQuestions();
+    fetchDailyTrivia();
   }, []);
 
-  async function fetchQuestions() {
-    const res = await fetch("/api/games/trivia");
+  async function fetchDailyTrivia() {
+    const res = await fetch("/api/games/trivia/daily");
     const data = await res.json();
     if (data.success) {
-      const all = [
-        ...data.data.defaults.map((d: any) => ({ ...d, isDefault: true })),
-        ...data.data.custom,
-      ];
-      setAllQuestions(all);
-      if (all.length > 0) {
-        // Pick a random question
-        const randomIdx = Math.floor(Math.random() * all.length);
-        setIdx(randomIdx);
-        setQuestion(all[randomIdx]);
-      }
+      setQuestion(data.data.question);
+      setDayKey(data.data.dayKey);
+      setAnswers(data.data.answers || []);
+      setHasAnswered(Boolean(data.data.hasAnswered));
     }
   }
 
-  const nextQuestion = useCallback(() => {
-    setRevealed(false);
-    setAnswer("");
-    const next = (idx + 1) % allQuestions.length;
-    setIdx(next);
-    setQuestion(allQuestions[next]);
-  }, [idx, allQuestions]);
+  async function submitAnswer() {
+    if (!answer.trim() || sending) return;
+    setSending(true);
+    const res = await fetch("/api/games/trivia/daily", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ answer }),
+    });
+    const data = await res.json();
+    setSending(false);
+
+    if (data.success) {
+      setAnswer("");
+      await fetchDailyTrivia();
+    }
+  }
 
   if (!question) {
     return (
-      <div className="h-full flex flex-col items-center justify-center text-gray-300">
-        <p className="text-sm">No trivia yet</p>
+      <div className="h-full flex flex-col items-center justify-center text-gray-400 dark:text-slate-400">
+        <p className="text-sm">No daily trivia available</p>
       </div>
     );
   }
@@ -55,79 +54,61 @@ export function TriviaWidget({ coupleSpaceId }: TriviaWidgetProps) {
   return (
     <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider">
+        <h3 className="text-sm font-bold text-gray-500 dark:text-slate-300 uppercase tracking-wider">
           Daily Trivia
         </h3>
-        <button
-          onClick={nextQuestion}
-          className="text-[10px] text-gray-400 hover:text-love-500 transition-colors font-medium"
-        >
-          Skip
-        </button>
+        <span className="text-[10px] text-gray-400 dark:text-slate-400">{dayKey}</span>
       </div>
 
-      <div className="flex-1 flex flex-col justify-center">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
-            className="space-y-3"
+      <div className="bg-lavender-100/70 dark:bg-slate-800 rounded-2xl p-4 mb-3">
+        <p className="text-sm font-semibold text-gray-700 dark:text-slate-100 leading-relaxed">
+          {question.question}
+        </p>
+      </div>
+
+      {!hasAnswered ? (
+        <div className="space-y-2">
+          <textarea
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            placeholder="Your answer for today..."
+            className="w-full text-sm min-h-[84px] px-3 py-2 rounded-xl border border-lavender-200 dark:border-slate-600 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-lavender-300 placeholder:text-gray-300 dark:placeholder:text-slate-500 resize-none"
+            maxLength={300}
+          />
+          <button
+            onClick={submitAnswer}
+            disabled={sending || !answer.trim()}
+            className="w-full text-xs font-semibold py-2 rounded-xl bg-love-400 text-white hover:bg-love-500 transition-colors disabled:opacity-50"
           >
-            {/* Question */}
-            <div className="bg-lavender-100/60 rounded-2xl p-4">
-              <p className="text-sm font-medium text-gray-700 leading-relaxed">
-                {question.question}
-              </p>
-            </div>
+            {sending ? "Submitting..." : "Submit answer"}
+          </button>
+        </div>
+      ) : (
+        <p className="text-xs text-gray-500 dark:text-slate-300 mb-2">
+          You answered today. If your partner answers too, both responses show below.
+        </p>
+      )}
 
-            {!revealed ? (
-              <div className="space-y-2">
-                <input
-                  type="text"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                  placeholder="Your answer..."
-                  className="w-full text-sm px-3 py-2 rounded-xl border border-lavender-200 bg-white/80 focus:outline-none focus:ring-1 focus:ring-lavender-300 placeholder:text-gray-300"
-                  onKeyDown={(e) => e.key === "Enter" && setRevealed(true)}
-                />
-                <button
-                  onClick={() => setRevealed(true)}
-                  className="w-full text-xs font-semibold text-lavender-400 hover:text-lavender-500 transition-colors py-1"
-                >
-                  Reveal answer
-                </button>
+      <div className="mt-3 space-y-2 overflow-y-auto min-h-0">
+        {answers.length === 0 ? (
+          <p className="text-xs text-gray-400 dark:text-slate-400">No answers yet today.</p>
+        ) : (
+          answers.map((entry) => (
+            <motion.div
+              key={entry.id}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-xl border border-gray-100 dark:border-slate-700 bg-white/80 dark:bg-slate-900 p-3"
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-lg leading-none">{entry.player.avatarEmoji || "💕"}</span>
+                <p className="text-xs font-semibold text-gray-600 dark:text-slate-200">{entry.player.name}</p>
               </div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="space-y-2"
-              >
-                {question.answer && (
-                  <div className="bg-love-50 rounded-xl p-3">
-                    <p className="text-[10px] text-gray-400 mb-0.5">Answer</p>
-                    <p className="text-sm font-semibold text-gray-700">
-                      {question.answer}
-                    </p>
-                  </div>
-                )}
-                <button
-                  onClick={nextQuestion}
-                  className="w-full text-xs font-semibold text-love-400 hover:text-love-500 py-1 transition-colors"
-                >
-                  Next question
-                </button>
-              </motion.div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+              <p className="text-sm text-gray-700 dark:text-slate-100">{entry.answer}</p>
+            </motion.div>
+          ))
+        )}
       </div>
-
-      <p className="text-[10px] text-gray-300 text-center mt-2">
-        {allQuestions.length} questions
-      </p>
     </div>
   );
 }

@@ -147,8 +147,9 @@ export default function DashboardPage() {
 
   async function deletePhoto(id: string) {
     const res = await fetch(`/api/photos?id=${id}`, { method: "DELETE" });
-    if ((await res.json()).success)
+    if ((await res.json()).success) {
       setPhotos(photos.filter((p) => p.id !== id));
+    }
   }
 
   if (loading) {
@@ -159,32 +160,30 @@ export default function DashboardPage() {
     );
   }
 
-  // ── No couple space yet ─────────────────────
   if (!space) {
     return (
       <div className="max-w-md mx-auto space-y-6 py-8">
         <div className="text-center">
-          <span className="text-5xl">💕</span>
-          <h1 className="text-2xl font-bold mt-3">Welcome, {user?.name}!</h1>
-          <p className="text-gray-400 mt-1">
-            Create a couple space or join your partner&apos;s
+          <h1 className="text-2xl font-bold mt-3 dark:text-slate-100">Welcome, {user?.name}!</h1>
+          <p className="text-gray-400 dark:text-slate-400 mt-1">
+            Let's get you paired. Create your space, then send your partner an invite code.
           </p>
         </div>
 
         <CuteCard>
-          <h2 className="font-bold text-gray-700 mb-3">Create a New Space</h2>
+          <h2 className="font-bold text-gray-700 dark:text-slate-100 mb-3">Step 1: Create a Couple Space</h2>
           <HeartButton onClick={createSpace} className="w-full">
             Create Our Space
           </HeartButton>
         </CuteCard>
 
-        <div className="text-center text-sm text-gray-300 font-semibold">
+        <div className="text-center text-sm text-gray-300 dark:text-slate-500 font-semibold">
           or
         </div>
 
         <CuteCard>
-          <h2 className="font-bold text-gray-700 mb-3">
-            Join with Invite Code
+          <h2 className="font-bold text-gray-700 dark:text-slate-100 mb-3">
+            Step 1 (alternative): Join with Invite Code
           </h2>
           <div className="flex gap-2">
             <input
@@ -192,7 +191,7 @@ export default function DashboardPage() {
               value={joinCode}
               onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
               className="cute-input flex-1"
-              placeholder="Enter code"
+              placeholder="Enter invite code"
               maxLength={8}
             />
             <HeartButton onClick={joinSpace} variant="secondary">
@@ -205,7 +204,6 @@ export default function DashboardPage() {
     );
   }
 
-  // ── Bento dashboard ─────────────────────────
   const partner = space.members?.find((m: any) => m.id !== user?.id);
   const partnerCheckIns = checkIns.filter(
     (ci: any) => ci.author?.id !== user?.id
@@ -213,12 +211,11 @@ export default function DashboardPage() {
 
   return (
     <motion.div
-      className="space-y-3"
+      className="space-y-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Header */}
       <PartnerHeader
         spaceName={space.name}
         user={user}
@@ -227,17 +224,15 @@ export default function DashboardPage() {
         onGenerateInvite={generateInvite}
       />
 
-      {/* Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3 auto-rows-min">
-        {/* Row 1: Pet (tall) | Check-in | Days together + Streaks */}
         <div className="md:col-span-4 md:row-span-2">
-          <div className="bento-cell h-full min-h-[380px]">
+          <div className="bento-cell h-full min-h-[420px]">
             <PetWidget pet={pet} onAction={petAction} />
           </div>
         </div>
 
-        <div className="md:col-span-4">
-          <div className="bento-cell h-full min-h-[300px]">
+        <div className="md:col-span-4 md:row-span-2">
+          <div className="bento-cell h-full min-h-[420px]">
             <CheckInWidget
               recentCheckIns={partnerCheckIns}
               onCheckIn={doCheckIn}
@@ -246,38 +241,37 @@ export default function DashboardPage() {
         </div>
 
         <div className="md:col-span-4 grid grid-rows-2 gap-3">
-          <div className="bento-cell min-h-[140px]">
+          <div className="bento-cell min-h-[160px]">
             <DaysTogetherWidget
               startDate={space.startDate || space.createdAt}
               partnerName={partner?.name}
             />
           </div>
-          <div className="bento-cell min-h-[140px]">
+          <div className="bento-cell min-h-[160px]">
             <StreaksWidget streaks={space.streaks || []} />
           </div>
         </div>
 
-        {/* Row 2: Trivia | Photos */}
-        <div className="md:col-span-4">
-          <div className="bento-cell h-full min-h-[280px]">
-            <TriviaWidget coupleSpaceId={space.id} />
+        <div className="md:col-span-5">
+          <div className="bento-cell h-full min-h-[360px]">
+            <TriviaWidget />
           </div>
         </div>
 
-        <div className="md:col-span-4">
-          <div className="bento-cell h-full min-h-[280px]">
+        <div className="md:col-span-5">
+          <div className="bento-cell h-full min-h-[360px]">
             <PhotoWidget
               photos={photos}
               onUpload={uploadPhoto}
               onDelete={deletePhoto}
               userId={user?.id}
+              partnerName={partner?.name}
             />
           </div>
         </div>
 
-        {/* Row 3: Notes (wide) | Games link */}
         <div className="md:col-span-8">
-          <div className="bento-cell min-h-[200px]">
+          <div className="bento-cell min-h-[220px]">
             <QuickNote
               notes={notes}
               onSend={sendNote}
@@ -289,7 +283,7 @@ export default function DashboardPage() {
 
         <div className="md:col-span-4">
           <Link href="/games">
-            <div className="bento-cell h-full min-h-[200px] flex flex-col items-center justify-center gap-3 group cursor-pointer hover:border-lavender-300 transition-colors">
+            <div className="bento-cell h-full min-h-[220px] flex flex-col items-center justify-center gap-3 group cursor-pointer hover:border-lavender-300 transition-colors">
               <motion.div
                 whileHover={{ rotate: [0, -8, 8, 0] }}
                 transition={{ duration: 0.3 }}
@@ -309,11 +303,11 @@ export default function DashboardPage() {
                 </svg>
               </motion.div>
               <div className="text-center">
-                <p className="text-sm font-bold text-gray-600 group-hover:text-lavender-400 transition-colors">
+                <p className="text-sm font-bold text-gray-600 dark:text-slate-200 group-hover:text-lavender-400 transition-colors">
                   Play Games
                 </p>
-                <p className="text-[10px] text-gray-300 mt-0.5">
-                  Memory Match &middot; Pixel Canvas
+                <p className="text-[10px] text-gray-300 dark:text-slate-400 mt-0.5">
+                  Memory Match · Pixel Canvas
                 </p>
               </div>
             </div>

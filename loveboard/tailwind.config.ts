@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
@@ -35,8 +36,8 @@ const config: Config = {
       },
       animation: {
         "heart-pulse": "heartPulse 1.5s ease-in-out infinite",
-        "float": "float 3s ease-in-out infinite",
-        "wiggle": "wiggle 0.5s ease-in-out",
+        float: "float 3s ease-in-out infinite",
+        wiggle: "wiggle 0.5s ease-in-out",
       },
       keyframes: {
         heartPulse: {
