@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Mood {
+  HAPPY
+  SAD
+  EXCITED
+  TIRED
+  LOVING
+  NEUTRAL
+}
+
+enum GrowthStage {
+  SEED
+  SPROUT
+  GROWING
+  BLOOMING
+  FLOURISHING
+}
+
+enum GameType {
+  MEMORY_MATCH
+  LOVE_TRIVIA
+  PIXEL_CANVAS
+}
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  name          String
+  passwordHash  String
+  avatarEmoji   String       @default("💕")
+  coupleSpaceId String?
+  coupleSpace   CoupleSpace? @relation(fields: [coupleSpaceId], references: [id])
+  notes         Note[]
+  checkIns      CheckIn[]
+  gameSessions  GameSession[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  sentInvitations Invitation[] @relation("InvitationSender")
+}
+
+model CoupleSpace {
+  id        String   @id @default(cuid())
+  name      String   @default("Our Space 💕")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  startDate    DateTime @default(now())
+
+  members      User[]
+  notes        Note[]
+  checkIns     CheckIn[]
+  pet          Pet?
+  gameSessions GameSession[]
+  streaks      Streak[]
+  invitations  Invitation[]
+  triviaQuestions TriviaQuestion[]
+  photos       Photo[]
+  pixelCanvas  PixelCanvas?
+}
+
+model Invitation {
+  id            String      @id @default(cuid())
+  code          String      @unique
+  coupleSpaceId String
+  coupleSpace   CoupleSpace @relation(fields: [coupleSpaceId], references: [id])
+  senderId      String
+  sender        User        @relation("InvitationSender", fields: [senderId], references: [id])
+  expiresAt     DateTime
+  usedAt        DateTime?
+  createdAt     DateTime    @default(now())
+}
+
+model Note {
+  id            String      @id @default(cuid())
+  content       String
+  color         String      @default("#fff1f2")
+  authorId      String
+  author        User        @relation(fields: [authorId], references: [id])
+  coupleSpaceId String
+  coupleSpace   CoupleSpace @relation(fields: [coupleSpaceId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model CheckIn {
+  id            String      @id @default(cuid())
+  mood          Mood
+  message       String?
+  authorId      String
+  author        User        @relation(fields: [authorId], references: [id])
+  coupleSpaceId String
+  coupleSpace   CoupleSpace @relation(fields: [coupleSpaceId], references: [id])
+  date          DateTime    @default(now()) @db.Date
+  createdAt     DateTime    @default(now())
+
+  @@unique([authorId, date])
+}
+
+model Pet {
+  id            String      @id @default(cuid())
+  name          String      @default("Love Bug")
+  species       String      @default("🌱")
+  hunger        Int         @default(80)
+  happiness     Int         @default(80)
+  health        Int         @default(100)
+  growthStage   GrowthStage @default(SEED)
+  experience    Int         @default(0)
+  lastFed       DateTime    @default(now())
+  lastPlayed    DateTime    @default(now())
+  coupleSpaceId String      @unique
+  coupleSpace   CoupleSpace @relation(fields: [coupleSpaceId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model GameSession {
+  id            String      @id @default(cuid())
+  gameType      GameType
+  score         Int         @default(0)
+  moves         Int         @default(0)
+  completed     Boolean     @default(false)
+  playerId      String
+  player        User        @relation(fields: [playerId], references: [id])
+  coupleSpaceId String
+  coupleSpace   CoupleSpace @relation(fields: [coupleSpaceId], references: [id])
+  metadata      Json?
+  createdAt     DateTime    @default(now())
+}
+
+model TriviaQuestion {
+  id            String      @id @default(cuid())
+  question      String
+  answer        String
+  authorId      String
+  coupleSpaceId String
+  coupleSpace   CoupleSpace @relation(fields: [coupleSpaceId], references: [id])
+  createdAt     DateTime    @default(now())
+}
+
+model Photo {
+  id            String      @id @default(cuid())
+  imageData     String      // base64 data URI
+  caption       String?
+  authorId      String
+  coupleSpaceId String
+  coupleSpace   CoupleSpace @relation(fields: [coupleSpaceId], references: [id])
+  createdAt     DateTime    @default(now())
+}
+
+model PixelCanvas {
+  id            String      @id @default(cuid())
+  pixels        Json        // 2D array of color strings
+  width         Int         @default(32)
+  height        Int         @default(32)
+  coupleSpaceId String      @unique
+  coupleSpace   CoupleSpace @relation(fields: [coupleSpaceId], references: [id])
+  updatedAt     DateTime    @updatedAt
+  createdAt     DateTime    @default(now())
+}
+
+model Streak {
+  id            String      @id @default(cuid())
+  type          String      // "checkin", "pet_care", "notes"
+  currentCount  Int         @default(0)
+  longestCount  Int         @default(0)
+  lastDate      DateTime?   @db.Date
+  coupleSpaceId String
+  coupleSpace   CoupleSpace @relation(fields: [coupleSpaceId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([coupleSpaceId, type])
+}

@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-warm-cream via-love-50/30 to-lavender-100/20 min-h-screen;
+  }
+}
+
+@layer components {
+  .cute-card {
+    @apply bg-white rounded-cute shadow-sm border border-love-100/50 p-5 transition-all duration-200 hover:shadow-md;
+  }
+
+  .cute-button {
+    @apply px-5 py-2.5 rounded-full font-semibold text-white bg-love-400 hover:bg-love-500 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .cute-button-secondary {
+    @apply px-5 py-2.5 rounded-full font-semibold text-love-500 bg-love-50 hover:bg-love-100 transition-all duration-200 active:scale-95;
+  }
+
+  .cute-input {
+    @apply w-full px-4 py-2.5 rounded-cute border border-love-200 bg-white focus:outline-none focus:ring-2 focus:ring-love-300 focus:border-transparent transition-all placeholder:text-gray-400;
+  }
+
+  .cute-label {
+    @apply block text-sm font-semibold text-gray-600 mb-1.5;
+  }
+
+  .bento-cell {
+    @apply bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-100/80 p-4 transition-all duration-200;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+
+  .bento-cell:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03);
+  }
+}
+
+/* Custom scrollbar for note panels */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 99px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}

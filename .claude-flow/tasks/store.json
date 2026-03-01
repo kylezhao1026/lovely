@@ -1,0 +1,122 @@
+{
+  "tasks": {
+    "task-1772312327242-6e2vlt": {
+      "taskId": "task-1772312327242-6e2vlt",
+      "type": "feature",
+      "description": "Checkpoint 1: Product spec, user stories, screen list, information architecture",
+      "priority": "critical",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "product_manager",
+        "ux_designer"
+      ],
+      "tags": [
+        "checkpoint-1",
+        "planning"
+      ],
+      "createdAt": "2026-02-28T20:58:47.242Z",
+      "startedAt": null,
+      "completedAt": null
+    },
+    "task-1772312327365-z9cvbs": {
+      "taskId": "task-1772312327365-z9cvbs",
+      "type": "feature",
+      "description": "Checkpoint 2: DB schema + API routes plan + auth/invite system + security review",
+      "priority": "critical",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "system_architect",
+        "backend_engineer",
+        "security_reviewer"
+      ],
+      "tags": [
+        "checkpoint-2",
+        "backend"
+      ],
+      "createdAt": "2026-02-28T20:58:47.365Z",
+      "startedAt": null,
+      "completedAt": null
+    },
+    "task-1772312328737-1gmtwr": {
+      "taskId": "task-1772312328737-1gmtwr",
+      "type": "feature",
+      "description": "Checkpoint 3: Core scaffolding - auth, couple space, DB setup, project init",
+      "priority": "high",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "backend_engineer",
+        "frontend_engineer",
+        "devops"
+      ],
+      "tags": [
+        "checkpoint-3",
+        "implementation"
+      ],
+      "createdAt": "2026-02-28T20:58:48.737Z",
+      "startedAt": null,
+      "completedAt": null
+    },
+    "task-1772312330388-9nd1af": {
+      "taskId": "task-1772312330388-9nd1af",
+      "type": "feature",
+      "description": "Checkpoint 4: Pet/plant system + notes CRUD + daily check-ins + streaks",
+      "priority": "high",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "backend_engineer",
+        "frontend_engineer"
+      ],
+      "tags": [
+        "checkpoint-4",
+        "features"
+      ],
+      "createdAt": "2026-02-28T20:58:50.388Z",
+      "startedAt": null,
+      "completedAt": null
+    },
+    "task-1772312331831-o9tpgz": {
+      "taskId": "task-1772312331831-o9tpgz",
+      "type": "feature",
+      "description": "Checkpoint 5: Memory Match + Love Trivia mini-games with scoring",
+      "priority": "high",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "game_designer",
+        "frontend_engineer"
+      ],
+      "tags": [
+        "checkpoint-5",
+        "games"
+      ],
+      "createdAt": "2026-02-28T20:58:51.831Z",
+      "startedAt": null,
+      "completedAt": null
+    },
+    "task-1772312333724-1a060s": {
+      "taskId": "task-1772312333724-1a060s",
+      "type": "feature",
+      "description": "Checkpoint 6: UI polish, animations, QA pass, tests, final fixes",
+      "priority": "normal",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "ux_designer",
+        "qa_tester",
+        "frontend_engineer"
+      ],
+      "tags": [
+        "checkpoint-6",
+        "polish"
+      ],
+      "createdAt": "2026-02-28T20:58:53.724Z",
+      "startedAt": null,
+      "completedAt": null
+    }
+  },
+  "version": "3.0.0"
+}
