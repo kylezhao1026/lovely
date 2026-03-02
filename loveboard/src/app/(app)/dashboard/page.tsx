@@ -331,41 +331,15 @@ export default function DashboardPage() {
         initial="hidden"
         animate="visible"
       >
+        {/* Row 1: Love Bug (4) | Photos (5, tall) | Days Together (3) + Games (3) */}
         <motion.div className="md:col-span-4 md:row-span-2" variants={cellVariants}>
           <div className="bento-cell h-full min-h-[420px]">
             <PetWidget pet={pet} onAction={petAction} />
           </div>
         </motion.div>
 
-        <motion.div className="md:col-span-4" variants={cellVariants}>
-          <div className="bento-cell">
-            <CheckInWidget
-              recentCheckIns={partnerCheckIns}
-              onCheckIn={doCheckIn}
-            />
-          </div>
-        </motion.div>
-
-        <motion.div className="md:col-span-4 grid grid-rows-2 gap-3" variants={cellVariants}>
-          <div className="bento-cell min-h-[160px]">
-            <DaysTogetherWidget
-              startDate={space.startDate || space.createdAt}
-              partnerName={partner?.name}
-            />
-          </div>
-          <div className="bento-cell min-h-[160px]">
-            <StreaksWidget streaks={space.streaks || []} />
-          </div>
-        </motion.div>
-
-        <motion.div className="md:col-span-5" variants={cellVariants}>
-          <div className="bento-cell h-full min-h-[360px]">
-            <TriviaWidget />
-          </div>
-        </motion.div>
-
-        <motion.div className="md:col-span-5" variants={cellVariants}>
-          <div className="bento-cell h-full min-h-[360px]">
+        <motion.div className="md:col-span-5 md:row-span-2" variants={cellVariants}>
+          <div className="bento-cell h-full min-h-[420px]">
             <PhotoWidget
               photos={photos}
               onUpload={uploadPhoto}
@@ -376,27 +350,25 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
-        <motion.div className="md:col-span-8" variants={cellVariants}>
-          <div className="bento-cell min-h-[220px]">
-            <QuickNote
-              notes={notes}
-              onSend={sendNote}
-              onDelete={deleteNote}
-              userId={user?.id}
+        <motion.div className="md:col-span-3" variants={cellVariants}>
+          <div className="bento-cell min-h-[160px]">
+            <DaysTogetherWidget
+              startDate={space.startDate || space.createdAt}
+              partnerName={partner?.name}
             />
           </div>
         </motion.div>
 
-        <motion.div className="md:col-span-4" variants={cellVariants}>
+        <motion.div className="md:col-span-3" variants={cellVariants}>
           <Link href="/games">
-            <div className="bento-cell h-full min-h-[220px] flex flex-col items-center justify-center gap-3 group cursor-pointer hover:border-lavender-300 transition-colors">
+            <div className="bento-cell h-full flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-lavender-300 transition-colors">
               <motion.div
                 whileHover={{ rotate: [0, -8, 8, 0] }}
                 transition={{ duration: 0.3 }}
               >
                 <svg
-                  width="40"
-                  height="40"
+                  width="36"
+                  height="36"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -418,6 +390,40 @@ export default function DashboardPage() {
               </div>
             </div>
           </Link>
+        </motion.div>
+
+        {/* Row 2: Check-in (3) | Trivia (5) | Streaks (4) */}
+        <motion.div className="md:col-span-3" variants={cellVariants}>
+          <div className="bento-cell">
+            <CheckInWidget
+              recentCheckIns={partnerCheckIns}
+              onCheckIn={doCheckIn}
+            />
+          </div>
+        </motion.div>
+
+        <motion.div className="md:col-span-5" variants={cellVariants}>
+          <div className="bento-cell h-full min-h-[300px]">
+            <TriviaWidget />
+          </div>
+        </motion.div>
+
+        <motion.div className="md:col-span-4" variants={cellVariants}>
+          <div className="bento-cell h-full">
+            <StreaksWidget streaks={space.streaks || []} />
+          </div>
+        </motion.div>
+
+        {/* Row 3: Quick Notes (full width) */}
+        <motion.div className="md:col-span-12" variants={cellVariants}>
+          <div className="bento-cell min-h-[180px]">
+            <QuickNote
+              notes={notes}
+              onSend={sendNote}
+              onDelete={deleteNote}
+              userId={user?.id}
+            />
+          </div>
         </motion.div>
       </motion.div>
     </motion.div>
