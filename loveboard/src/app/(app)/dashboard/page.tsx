@@ -337,8 +337,8 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
-        <motion.div className="md:col-span-4 md:row-span-2" variants={cellVariants}>
-          <div className="bento-cell h-full min-h-[420px]">
+        <motion.div className="md:col-span-4" variants={cellVariants}>
+          <div className="bento-cell">
             <CheckInWidget
               recentCheckIns={partnerCheckIns}
               onCheckIn={doCheckIn}
