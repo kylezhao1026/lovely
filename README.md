@@ -1,141 +1,83 @@
-# lovely 💕
+# lovely
 
-A cute long-distance relationship dashboard for couples. Share notes, care for a pet together, play mini-games, and keep your daily streaks alive — no matter the distance.
+A cozy couple dashboard for partners near or far. Share notes, raise a Love Bug together, play mini-games, and keep your daily streaks alive.
 
-## Features
+**Live at [swarming.vercel.app](https://swarming.vercel.app)**
 
-- **Auth** — Email/password registration and login via NextAuth.js
-- **Couple Spaces** — Create a space and invite your partner with a unique code (max 2 members)
-- **Love Notes** — CRUD sticky notes with color options
-- **Daily Check-Ins** — Mood picker + optional message, with history view
-- **Shared Pet** — Feed, play, water your Love Bug; watch it grow through 5 stages (Seed → Flourishing)
-- **Memory Match** — Card-matching game with love-themed emojis and scoring
-- **Love Trivia** — Answer questions about each other; add your own custom questions
-- **Streaks** — Non-punitive daily streak tracking for check-ins, pet care, and notes
-- **Cute UI** — Soft pastel palette, rounded cards, Framer Motion animations
+## Getting Started
 
-## Tech Stack
+1. Visit [swarming.vercel.app](https://swarming.vercel.app)
+2. Click **Get Started** and create an account with your email and a password
+3. Once logged in, create a **Couple Space** — this is your shared dashboard
+4. Share the **invite code** with your partner so they can join your space
+5. That's it — you're connected
 
-- **Next.js 14** (App Router)
-- **TypeScript**
-- **Prisma** + PostgreSQL
-- **NextAuth.js** (credentials provider)
-- **Tailwind CSS** (custom design tokens)
-- **Framer Motion** (animations)
-- **Zod** (input validation)
-- **Jest** (unit tests)
+## What You Can Do
 
-## Setup
+### Love Bug
+Raise a shared pet together. Feed, play, and water it daily — watch it grow through 5 stages from Baby Ghost to Love Bug. Each action has a cooldown and daily limit, so check in throughout the day.
 
-### 1. Clone and install
+### Daily Check-Ins
+Pick a mood (Happy, Sad, Excited, Tired, Loving, Chill) and leave an optional note. See how your partner is feeling at a glance.
+
+### Photos
+Share photos with your partner. Upload images with captions — your partner's latest photo shows front and center on the dashboard.
+
+### Love Notes
+Leave colorful sticky notes for each other. Pick a color, write a message, and it appears on both dashboards.
+
+### Daily Trivia
+Answer a new question every day. Once both partners answer, you can see each other's responses.
+
+### Streaks
+Track your daily habits together — check-ins, Love Bug care, and shared notes all have streak counters. No punishment for missing a day, just motivation to keep going.
+
+### Mini Games
+Play Memory Match and Pixel Canvas together from the games section.
+
+## Dark Mode
+
+Toggle between light and dark mode using the sun/moon switch in the top navigation bar. Your preference is saved automatically.
+
+## Settings
+
+Access settings from the gear icon in the top nav to:
+- Change your display name
+- Pick a cute avatar (16 animal options)
+- Rename your couple space
+- Unpair from your partner if needed
+
+## Support
+
+If you enjoy using lovely, visit the **Support the Developer** section in Settings to buy the developer a coffee.
+
+## For Developers
+
+### Local Setup
 
 ```bash
+git clone https://github.com/kylezhao1026/lovely.git
 cd lovely
 npm install
-```
-
-### 2. Database
-
-Option A — Docker:
-```bash
-docker compose up -d
-```
-
-Option B — Use any PostgreSQL instance and update the connection string.
-
-### 3. Environment
-
-```bash
 cp .env.example .env
-# Edit .env with your database URL and a secure NEXTAUTH_SECRET
-```
-
-### 4. Initialize database
-
-```bash
-npx prisma migrate dev --name init
-npm run db:seed
-```
-
-### 5. Run
-
-```bash
+# Add your PostgreSQL DATABASE_URL and a NEXTAUTH_SECRET to .env
+npx prisma db push
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### Sample accounts (after seeding)
+### Tech Stack
 
-| Email | Password |
-|-------|----------|
-| alice@example.com | password123 |
-| bob@example.com | password123 |
+- Next.js 14 (App Router) + TypeScript
+- Prisma + PostgreSQL (Neon)
+- NextAuth.js (credentials)
+- Tailwind CSS + Framer Motion
+- Deployed on Vercel
 
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start dev server |
-| `npm run build` | Production build |
-| `npm test` | Run unit tests |
-| `npm run lint` | Lint code |
-| `npm run db:seed` | Seed sample data |
-| `npm run db:studio` | Open Prisma Studio |
-
-## Project Structure
-
-```
-lovely/
-├── prisma/
-│   ├── schema.prisma       # Data model (9 models)
-│   └── seed.ts             # Sample data
-├── src/
-│   ├── app/
-│   │   ├── (marketing)/    # Landing page
-│   │   ├── (auth)/         # Login + Register
-│   │   ├── (app)/          # Authenticated pages
-│   │   │   ├── dashboard/
-│   │   │   ├── notes/
-│   │   │   ├── checkins/
-│   │   │   ├── pet/
-│   │   │   └── games/
-│   │   │       ├── memory-match/
-│   │   │       └── love-trivia/
-│   │   └── api/            # Route handlers
-│   ├── components/
-│   │   └── ui/             # CuteCard, MoodPicker, HeartButton, etc.
-│   ├── lib/                # Business logic (auth, games, pet, streaks, invite)
-│   ├── types/              # TypeScript types + next-auth augmentation
-│   └── hooks/
-├── tests/
-│   └── unit/               # Jest tests (43 tests)
-├── docker-compose.yml
-└── .env.example
-```
-
-## Tests
+### Tests
 
 ```bash
 npm test
+# 43 unit tests covering streaks, games, and pet care logic
 ```
-
-43 unit tests covering:
-- Streak calculation (consecutive days, resets, same-day dedup)
-- Memory Match (board generation, pair matching, scoring)
-- Love Trivia (score calculation)
-- Pet care (decay over time, action effects, growth stages, stat caps)
-
-## Future Improvements
-
-- **Real-time updates** — WebSocket/SSE for live note and check-in sync
-- **Push notifications** — Gentle daily reminders (not punitive)
-- **Photo sharing** — Attach images to notes
-- **Video calls** — Embedded WebRTC for in-app calls
-- **More games** — Would You Rather, Drawing Together, Countdown Timer
-- **Themes** — Customizable color palettes per couple
-- **Mobile app** — React Native wrapper
-- **OAuth providers** — Google/Apple sign-in
-- **Timezone awareness** — Per-user timezone for accurate streak tracking
-- **Pet species** — Choose between plant, cat, dog, bunny
-- **Achievement badges** — Unlock milestones for streaks and game scores
