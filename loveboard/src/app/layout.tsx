@@ -3,8 +3,11 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "lovely - Your Cozy Couple Dashboard",
+  title: "lovely",
   description: "A cute long-distance relationship dashboard for couples",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

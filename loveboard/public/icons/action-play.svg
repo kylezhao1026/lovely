@@ -1,1 +1,19 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="16" fill="#F0F9FF"/><circle cx="32" cy="32" r="18" fill="#60A5FA"/><path d="M28 23l14 9-14 9V23z" fill="#DBEAFE"/></svg>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="16" fill="#FDF2F8"/>
+  <!-- Bone shape -->
+  <g transform="translate(32,32) rotate(-30)">
+    <!-- Left knob -->
+    <circle cx="-14" cy="-4" r="5.5" fill="#F9A8D4"/>
+    <circle cx="-14" cy="4" r="5.5" fill="#F9A8D4"/>
+    <!-- Right knob -->
+    <circle cx="14" cy="-4" r="5.5" fill="#DDD6FE"/>
+    <circle cx="14" cy="4" r="5.5" fill="#DDD6FE"/>
+    <!-- Center bar -->
+    <rect x="-14" y="-4" width="28" height="8" rx="3" fill="#FBCFE8"/>
+    <!-- Shine highlight -->
+    <ellipse cx="-6" cy="-2" rx="4" ry="1.5" fill="white" opacity="0.5"/>
+  </g>
+  <!-- Small sparkle -->
+  <circle cx="46" cy="14" r="2" fill="#C4B5FD" opacity="0.7"/>
+  <circle cx="18" cy="48" r="1.5" fill="#F9A8D4" opacity="0.6"/>
+</svg>

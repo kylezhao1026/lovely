@@ -40,7 +40,7 @@ export function CheckInWidget({ recentCheckIns, onCheckIn }: CheckInWidgetProps)
 
   return (
     <div className="h-full flex flex-col">
-      <h3 className="text-sm font-bold text-gray-500 dark:text-slate-300 uppercase tracking-wider mb-3">
+      <h3 className="text-sm font-bold text-gray-500 dark:text-slate-300 uppercase tracking-wider mb-2">
         How are you?
       </h3>
 
@@ -72,7 +72,7 @@ export function CheckInWidget({ recentCheckIns, onCheckIn }: CheckInWidgetProps)
           </motion.div>
         ) : (
           <motion.div key="form" className="flex-1 flex flex-col">
-            <div className="grid grid-cols-2 gap-2.5 mb-3">
+            <div className="grid grid-cols-3 gap-1.5 mb-2">
               {MOODS.map((m) => {
                 const C = m.Component;
                 return (
@@ -80,7 +80,7 @@ export function CheckInWidget({ recentCheckIns, onCheckIn }: CheckInWidgetProps)
                     key={m.value}
                     onClick={() => setSelected(m.value)}
                     whileTap={{ scale: 0.95 }}
-                    className={`flex flex-col items-center py-3 rounded-xl text-xs transition-all border ${
+                    className={`flex flex-col items-center py-2 rounded-xl text-xs transition-all border ${
                       selected === m.value
                         ? "ring-2 ring-love-300 dark:ring-lavender-300 shadow-sm border-love-200 dark:border-lavender-400"
                         : "border-transparent hover:bg-gray-50 dark:hover:bg-slate-800"
@@ -101,20 +101,20 @@ export function CheckInWidget({ recentCheckIns, onCheckIn }: CheckInWidgetProps)
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
-                className="space-y-2"
+                className="flex gap-2"
               >
                 <input
                   type="text"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="A little note... (optional)"
-                  className="w-full text-xs px-3 py-2 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-love-300 placeholder:text-gray-300 dark:placeholder:text-slate-500"
+                  className="flex-1 min-w-0 text-xs px-3 py-2 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-love-300 placeholder:text-gray-300 dark:placeholder:text-slate-500"
                   maxLength={140}
                 />
                 <button
                   onClick={handleSubmit}
                   disabled={sending}
-                  className="w-full text-xs font-semibold py-2 rounded-xl bg-love-400 text-white hover:bg-love-500 transition-colors disabled:opacity-50"
+                  className="text-xs font-semibold px-4 py-2 rounded-xl bg-love-400 text-white hover:bg-love-500 transition-colors disabled:opacity-50 whitespace-nowrap"
                 >
                   {sending ? "..." : "Check in"}
                 </button>
@@ -122,10 +122,10 @@ export function CheckInWidget({ recentCheckIns, onCheckIn }: CheckInWidgetProps)
             )}
 
             {partnerMoodDef && partnerCheckIn && (
-              <div className="mt-auto pt-3 border-t border-gray-100 dark:border-slate-700">
+              <div className="mt-auto pt-2 border-t border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-2">
                   <partnerMoodDef.Component
-                    size={30}
+                    size={24}
                     mood={partnerMoodDef.mood as any}
                     color={partnerMoodDef.color}
                   />

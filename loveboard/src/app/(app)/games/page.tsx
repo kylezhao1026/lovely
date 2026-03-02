@@ -28,8 +28,8 @@ export default function GamesPage() {
   return (
     <div className="space-y-6 max-w-lg mx-auto">
       <div className="text-center">
-        <h1 className="text-xl font-bold text-gray-800">Games</h1>
-        <p className="text-xs text-gray-400 mt-1">Play together, even apart</p>
+        <h1 className="text-xl font-bold text-gray-800 dark:text-slate-100">Games</h1>
+        <p className="text-xs text-gray-400 dark:text-slate-400 mt-1">Play together, even apart</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -43,8 +43,8 @@ export default function GamesPage() {
               className={`bento-cell ${game.bgColor} text-center py-8 flex flex-col items-center gap-3 cursor-pointer`}
             >
               <game.Component size={56} mood="blissful" color={game.color} />
-              <h2 className="text-sm font-bold text-gray-700">{game.title}</h2>
-              <p className="text-[11px] text-gray-400 leading-relaxed px-2">
+              <h2 className="text-sm font-bold text-gray-700 dark:text-slate-100">{game.title}</h2>
+              <p className="text-[11px] text-gray-400 dark:text-slate-300 leading-relaxed px-2">
                 {game.description}
               </p>
             </motion.div>
@@ -55,7 +55,7 @@ export default function GamesPage() {
       <div className="text-center">
         <Link
           href="/dashboard"
-          className="text-xs text-gray-300 hover:text-gray-500 transition-colors"
+          className="text-xs text-gray-300 dark:text-slate-400 hover:text-gray-500 dark:hover:text-slate-200 transition-colors"
         >
           Back to dashboard
         </Link>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Ghost body -->
+  <path d="M32 6C19.85 6 10 15.85 10 28v22c0 1.5 1.8 2.3 2.9 1.2l4.1-4.1 4.1 4.1c.8.8 2 .8 2.8 0L28 47.1l4.1 4.1c.8.8 2 .8 2.8 0L39 47.1l4.1 4.1c.8.8 2 .8 2.8 0l4.1-4.1 4.1 4.1c1.1 1.1 2.9.3 2.9-1.2V28C57 15.85 47.15 6 32 6z" fill="#fda4af"/>
+  <!-- Left eye -->
+  <ellipse cx="24" cy="26" rx="3.5" ry="4" fill="#1a1a2e"/>
+  <!-- Right eye -->
+  <ellipse cx="40" cy="26" rx="3.5" ry="4" fill="#1a1a2e"/>
+  <!-- Left eye shine -->
+  <ellipse cx="22.5" cy="24.5" rx="1.2" ry="1.5" fill="white"/>
+  <!-- Right eye shine -->
+  <ellipse cx="38.5" cy="24.5" rx="1.2" ry="1.5" fill="white"/>
+  <!-- Blush left -->
+  <ellipse cx="19" cy="32" rx="3.5" ry="2" fill="#f9a8d4" opacity="0.6"/>
+  <!-- Blush right -->
+  <ellipse cx="45" cy="32" rx="3.5" ry="2" fill="#f9a8d4" opacity="0.6"/>
+  <!-- Smile -->
+  <path d="M28 33 Q32 37 36 33" stroke="#1a1a2e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>

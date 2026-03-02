@@ -3,6 +3,8 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
+// @ts-ignore
+import { Ghost } from "react-kawaii";
 import { CuteCard } from "@/components/ui/CuteCard";
 import { HeartButton } from "@/components/ui/HeartButton";
 import { PartnerHeader } from "@/components/dashboard/PartnerHeader";
@@ -27,6 +29,7 @@ export default function DashboardPage() {
   const [inviteCode, setInviteCode] = useState("");
   const [joinCode, setJoinCode] = useState("");
   const [error, setError] = useState("");
+  const [setupTab, setSetupTab] = useState<"create" | "join">("create");
 
   const fetchAll = useCallback(async () => {
     const [spaceRes, notesRes, checkInsRes, petRes, photosRes] =
@@ -154,52 +157,130 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-4xl animate-heart-pulse">💕</div>
+      <div className="flex flex-col items-center justify-center py-20 gap-4">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+        >
+          <motion.div
+            animate={{ y: [0, -12, 0] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Ghost size={80} mood="blissful" color="#fda4af" />
+          </motion.div>
+        </motion.div>
+        <motion.p
+          className="text-sm text-gray-400 dark:text-slate-400 font-medium tracking-wide"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0.5, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          loading your love...
+        </motion.p>
       </div>
     );
   }
 
   if (!space) {
     return (
-      <div className="max-w-md mx-auto space-y-6 py-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mt-3 dark:text-slate-100">Welcome, {user?.name}!</h1>
-          <p className="text-gray-400 dark:text-slate-400 mt-1">
-            Let's get you paired. Create your space, then send your partner an invite code.
+      <div className="max-w-md mx-auto py-12 px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-8"
+        >
+          <motion.div
+            animate={{ rotate: [0, -8, 8, -8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+            className="inline-block"
+          >
+            <Ghost size={80} mood="blissful" color="#fda4af" />
+          </motion.div>
+          <h1 className="text-2xl font-bold mt-4 text-gray-800 dark:text-slate-100">
+            Welcome, {user?.name}!
+          </h1>
+          <p className="text-sm text-gray-400 dark:text-slate-400 mt-1">
+            Let&apos;s get you paired with your partner
           </p>
-        </div>
+        </motion.div>
 
-        <CuteCard>
-          <h2 className="font-bold text-gray-700 dark:text-slate-100 mb-3">Step 1: Create a Couple Space</h2>
-          <HeartButton onClick={createSpace} className="w-full">
-            Create Our Space
-          </HeartButton>
-        </CuteCard>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <CuteCard>
+            <div className="flex rounded-xl bg-gray-100 dark:bg-slate-800 p-1 mb-5">
+              <button
+                onClick={() => setSetupTab("create")}
+                className={`flex-1 text-sm font-semibold py-2 rounded-lg transition-all ${
+                  setupTab === "create"
+                    ? "bg-white dark:bg-slate-700 text-love-500 shadow-sm"
+                    : "text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200"
+                }`}
+              >
+                Create Space
+              </button>
+              <button
+                onClick={() => setSetupTab("join")}
+                className={`flex-1 text-sm font-semibold py-2 rounded-lg transition-all ${
+                  setupTab === "join"
+                    ? "bg-white dark:bg-slate-700 text-love-500 shadow-sm"
+                    : "text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200"
+                }`}
+              >
+                Join with Code
+              </button>
+            </div>
 
-        <div className="text-center text-sm text-gray-300 dark:text-slate-500 font-semibold">
-          or
-        </div>
-
-        <CuteCard>
-          <h2 className="font-bold text-gray-700 dark:text-slate-100 mb-3">
-            Step 1 (alternative): Join with Invite Code
-          </h2>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={joinCode}
-              onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-              className="cute-input flex-1"
-              placeholder="Enter invite code"
-              maxLength={8}
-            />
-            <HeartButton onClick={joinSpace} variant="secondary">
-              Join
-            </HeartButton>
-          </div>
-          {error && <p className="text-sm text-love-500 mt-2">{error}</p>}
-        </CuteCard>
+            {setupTab === "create" ? (
+              <motion.div
+                key="create"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-4"
+              >
+                <p className="text-sm text-gray-500 dark:text-slate-300">
+                  Start a new couple space, then send your partner an invite code.
+                </p>
+                <HeartButton onClick={createSpace} className="w-full">
+                  Create Our Space
+                </HeartButton>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="join"
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-4"
+              >
+                <p className="text-sm text-gray-500 dark:text-slate-300">
+                  Got an invite code from your partner? Enter it below.
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={joinCode}
+                    onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                    className="cute-input flex-1"
+                    placeholder="Enter invite code"
+                    maxLength={8}
+                  />
+                  <HeartButton onClick={joinSpace} variant="secondary">
+                    Join
+                  </HeartButton>
+                </div>
+                {error && (
+                  <p className="text-sm text-love-500">{error}</p>
+                )}
+              </motion.div>
+            )}
+          </CuteCard>
+        </motion.div>
       </div>
     );
   }
@@ -208,6 +289,26 @@ export default function DashboardPage() {
   const partnerCheckIns = checkIns.filter(
     (ci: any) => ci.author?.id !== user?.id
   );
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const cellVariants = {
+    hidden: { opacity: 0, y: 16 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, ease: "easeOut" },
+    },
+  };
 
   return (
     <motion.div
@@ -224,23 +325,28 @@ export default function DashboardPage() {
         onGenerateInvite={generateInvite}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 auto-rows-min">
-        <div className="md:col-span-4 md:row-span-2">
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-12 gap-3 auto-rows-min"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div className="md:col-span-4 md:row-span-2" variants={cellVariants}>
           <div className="bento-cell h-full min-h-[420px]">
             <PetWidget pet={pet} onAction={petAction} />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="md:col-span-4 md:row-span-2">
+        <motion.div className="md:col-span-4 md:row-span-2" variants={cellVariants}>
           <div className="bento-cell h-full min-h-[420px]">
             <CheckInWidget
               recentCheckIns={partnerCheckIns}
               onCheckIn={doCheckIn}
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="md:col-span-4 grid grid-rows-2 gap-3">
+        <motion.div className="md:col-span-4 grid grid-rows-2 gap-3" variants={cellVariants}>
           <div className="bento-cell min-h-[160px]">
             <DaysTogetherWidget
               startDate={space.startDate || space.createdAt}
@@ -250,15 +356,15 @@ export default function DashboardPage() {
           <div className="bento-cell min-h-[160px]">
             <StreaksWidget streaks={space.streaks || []} />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="md:col-span-5">
+        <motion.div className="md:col-span-5" variants={cellVariants}>
           <div className="bento-cell h-full min-h-[360px]">
             <TriviaWidget />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="md:col-span-5">
+        <motion.div className="md:col-span-5" variants={cellVariants}>
           <div className="bento-cell h-full min-h-[360px]">
             <PhotoWidget
               photos={photos}
@@ -268,9 +374,9 @@ export default function DashboardPage() {
               partnerName={partner?.name}
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="md:col-span-8">
+        <motion.div className="md:col-span-8" variants={cellVariants}>
           <div className="bento-cell min-h-[220px]">
             <QuickNote
               notes={notes}
@@ -279,9 +385,9 @@ export default function DashboardPage() {
               userId={user?.id}
             />
           </div>
-        </div>
+        </motion.div>
 
-        <div className="md:col-span-4">
+        <motion.div className="md:col-span-4" variants={cellVariants}>
           <Link href="/games">
             <div className="bento-cell h-full min-h-[220px] flex flex-col items-center justify-center gap-3 group cursor-pointer hover:border-lavender-300 transition-colors">
               <motion.div
@@ -312,8 +418,8 @@ export default function DashboardPage() {
               </div>
             </div>
           </Link>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </motion.div>
   );
 }
